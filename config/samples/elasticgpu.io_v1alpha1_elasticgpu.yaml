@@ -1,0 +1,6 @@
+apiVersion: elasticgpu.io/v1alpha1
+kind: ElasticGPU
+metadata:
+  name: elasticgpu-sample
+spec:
+  # TODO(user): Add fields here

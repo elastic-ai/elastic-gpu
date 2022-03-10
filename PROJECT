@@ -1,0 +1,18 @@
+domain: elasticgpu.io
+layout:
+- go.kubebuilder.io/v3
+plugins:
+  manifests.sdk.operatorframework.io/v2: {}
+  scorecard.sdk.operatorframework.io/v2: {}
+projectName: elastic-gpu
+repo: elasticgpu.io/elastic-gpu
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  domain: elasticgpu.io
+  group: elasticgpu.io
+  kind: ElasticGPU
+  path: elasticgpu.io/elastic-gpu/api/v1alpha1
+  version: v1alpha1
+version: "3"
