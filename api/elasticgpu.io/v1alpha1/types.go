@@ -18,20 +18,20 @@ package v1alpha1
 
 import (
 	v1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 // ElasticGPUSpec defines the desired state of ElasticGPU
 type ElasticGPUSpec struct {
-	Capacity         ResourceList `json:"capacity"`
-	ElasticGPUSource `json:"elasticGPUSource"`
-	ClaimRef         v1.ObjectReference `json:"claimRef"`
-	NodeAffinity     GPUNodeAffinity    `json:"nodeAffinity"`
+	Capacity         v1.ResourceList `json:"capacity,omitempty" protobuf:"bytes,1,rep,name=capacity,casttype=ResourceList,castkey=ResourceName"`
+	ElasticGPUSource `json:",inline" protobuf:"bytes,2,opt,name=elasticGPUSource"`
+	ClaimRef         v1.ObjectReference `json:"claimRef,omitempty" protobuf:"bytes,3,opt,name=claimRef"`
+	NodeAffinity     GPUNodeAffinity    `json:"nodeAffinity,omitempty" protobuf:"bytes,4,opt,name=nodeAffinity"`
+	NodeName         string             `json:"nodeName,omitempty" protobuf:"bytes,5,opt,name=nodeName"`
 }
 
 type GPUNodeAffinity struct {
-	Required *v1.NodeSelector `json:"required"`
+	Required *v1.NodeSelector `json:"required,omitempty" protobuf:"bytes,1,opt,name=required"`
 }
 
 // ElasticGPUStatus defines the observed state of ElasticGPU
@@ -63,10 +63,9 @@ const (
 // ElasticGPU is the Schema for the elasticgpus API
 type ElasticGPU struct {
 	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
-
-	Spec   ElasticGPUSpec   `json:"spec,omitempty"`
-	Status ElasticGPUStatus `json:"status,omitempty"`
+	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
+	Spec              ElasticGPUSpec   `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
+	Status            ElasticGPUStatus `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
 }
 
 //+kubebuilder:object:root=true
@@ -74,35 +73,41 @@ type ElasticGPU struct {
 // ElasticGPUList contains a list of ElasticGPU
 type ElasticGPUList struct {
 	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []ElasticGPU `json:"items"`
+	metav1.ListMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
+	Items           []ElasticGPU `json:"items" protobuf:"bytes,2,rep,name=items"`
 }
 
 type ElasticGPUSource struct {
-	qGPU        *qGPU        `json:"qGPU"`
-	PhysicalGPU *PhysicalGPU `json:"physicalGPU"`
-	GPUShare    *GPUShare    `json:"gpuShare"`
+	QGPU        *QGPUElasticGPUSource        `json:"qGPU,omitempty" protobuf:"bytes,1,opt,name=qGPU"`
+	PhysicalGPU *PhysicalGPUElasticGPUSource `json:"physicalGPU,omitempty" protobuf:"bytes,2,opt,name=physicalGPU"`
+	GPUShare    *GPUShareElasticGPUSource    `json:"gpuShare,omitempty" protobuf:"bytes,3,opt,name=gpuShare"`
 }
 
-type qGPU struct {
-	DeviceName string `json:"DeviceName"`
-	GPUIndex   int    `json:"gpuIndex"`
+type BaseGPUSource struct {
+	Index string `json:"index" protobuf:"bytes,1,opt,name=index"`
+	UUID  string `json:"uuid,omitempty" protobuf:"bytes,2,opt,name=uuid"`
 }
 
-type PhysicalGPU struct {
-	GPUIndex int `json:"gpuIndex"`
+type QGPUElasticGPUSource struct {
+	BaseGPUSource `json:",inline" protobuf:"bytes,1,opt,name=baseGPUSource"`
+	DeviceName    string   `json:"DeviceName,omitempty" protobuf:"bytes,2,opt,name=deviceName"`
+	Paths         []string `json:"paths,omitempty" protobuf:"bytes,3,rep,name=paths"`
 }
 
-type GPUShare struct {
-	GPUIndex string `json:"gpuIndex"`
+type PhysicalGPUElasticGPUSource struct {
+	BaseGPUSource `json:",inline" protobuf:"bytes,1,opt,name=baseGPUSource"`
 }
 
-type ResourceList map[ResourceName]resource.Quantity
-type ResourceName string
+type GPUShareElasticGPUSource struct {
+	BaseGPUSource `json:",inline" protobuf:"bytes,1,opt,name=baseGPUSource"`
+}
 
 const (
-	ResourceGPUCore   ResourceName = "gpu-core"
-	ResourceGPUMemory ResourceName = "gpu-memory"
+	ResourceGPUCore    v1.ResourceName = "elasticgpu.com/gpu-core"
+	ResourceGPUMemory  v1.ResourceName = "elasticgpu.com/gpu-memory"
+	ResourceQGPUCore   v1.ResourceName = "elasticgpu.com/qgpu-core"
+	ResourceQGPUMemory v1.ResourceName = "elasticgpu.com/qgpu-memory"
+	ResourcePGPU       v1.ResourceName = "nvidia.com/gpu"
 )
 
 func init() {

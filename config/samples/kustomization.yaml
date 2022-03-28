@@ -1,4 +1,0 @@
-## Append samples you want in your CSV to this file as resources ##
-resources:
-- elasticgpu.io_v1alpha1_elasticgpu.yaml
-#+kubebuilder:scaffold:manifestskustomizesamples
