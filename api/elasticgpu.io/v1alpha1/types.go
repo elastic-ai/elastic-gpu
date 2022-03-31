@@ -103,11 +103,12 @@ type GPUShareElasticGPUSource struct {
 }
 
 const (
-	ResourceGPUCore    v1.ResourceName = "elasticgpu.com/gpu-core"
-	ResourceGPUMemory  v1.ResourceName = "elasticgpu.com/gpu-memory"
-	ResourceQGPUCore   v1.ResourceName = "elasticgpu.com/qgpu-core"
-	ResourceQGPUMemory v1.ResourceName = "elasticgpu.com/qgpu-memory"
-	ResourcePGPU       v1.ResourceName = "nvidia.com/gpu"
+	ResourceGPUCore         v1.ResourceName = "elasticgpu.com/gpu-core"
+	ResourceGPUMemory       v1.ResourceName = "elasticgpu.com/gpu-memory"
+	ResourceQGPUCore        v1.ResourceName = "tke.cloud.tencent.com/qgpu-core"
+	ResourceQGPUOfflineCore v1.ResourceName = "tke.cloud.tencent.com/qgpu-core-greedy"
+	ResourceQGPUMemory      v1.ResourceName = "tke.cloud.tencent.com/qgpu-memory"
+	ResourcePGPU            v1.ResourceName = "nvidia.com/gpu"
 )
 
 func init() {
