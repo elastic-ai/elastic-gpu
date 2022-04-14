@@ -3,8 +3,7 @@
 ## How to generate apis
 
 ```
-$ ./hack/update-codegen.sh // codes
-$ make manifests // crd
+$ make generate
 ```
 
 ## How to use
