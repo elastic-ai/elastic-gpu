@@ -93,12 +93,12 @@ type BaseGPUSource struct {
 
 type QGPUElasticGPUSource struct {
 	BaseGPUSource `json:",inline" protobuf:"bytes,1,opt,name=baseGPUSource"`
-	DeviceName    string   `json:"DeviceName,omitempty" protobuf:"bytes,2,opt,name=deviceName"`
+	DeviceName    string   `json:"deviceName,omitempty" protobuf:"bytes,2,opt,name=deviceName"`
 	Paths         []string `json:"paths,omitempty" protobuf:"bytes,3,rep,name=paths"`
 }
 
 type PhysicalGPUElasticGPUSource struct {
-	BaseGPUSource `json:",inline" protobuf:"bytes,1,opt,name=baseGPUSource"`
+	Devices []BaseGPUSource `json:"devices" protobuf:"bytes,1,opt,name=devices"`
 }
 
 type GPUShareElasticGPUSource struct {

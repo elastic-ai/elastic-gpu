@@ -205,16 +205,23 @@ spec:
                 type: string
               physicalGPU:
                 properties:
-                  index:
-                    type: string
-                  uuid:
-                    type: string
+                  devices:
+                    items:
+                      properties:
+                        index:
+                          type: string
+                        uuid:
+                          type: string
+                      required:
+                      - index
+                      type: object
+                    type: array
                 required:
-                - index
+                - devices
                 type: object
               qGPU:
                 properties:
-                  DeviceName:
+                  deviceName:
                     type: string
                   index:
                     type: string
@@ -233,7 +240,7 @@ spec:
             properties:
               message:
                 description: A human-readable message indicating details about why
-                  the volume is in this state.
+                  the elastic gpu is in this state.
                 type: string
               phase:
                 type: string
