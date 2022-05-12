@@ -24,6 +24,10 @@ func (c *FakeElasticgpuV1alpha1) ElasticGPUClasses() v1alpha1.ElasticGPUClassInt
 	return &FakeElasticGPUClasses{c}
 }
 
+func (c *FakeElasticgpuV1alpha1) GPUs() v1alpha1.GPUInterface {
+	return &FakeGPUs{c}
+}
+
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
 func (c *FakeElasticgpuV1alpha1) RESTClient() rest.Interface {

@@ -15,6 +15,7 @@ type ElasticgpuV1alpha1Interface interface {
 	ElasticGPUsGetter
 	ElasticGPUClaimsGetter
 	ElasticGPUClassesGetter
+	GPUsGetter
 }
 
 // ElasticgpuV1alpha1Client is used to interact with features provided by the elasticgpu.io group.
@@ -32,6 +33,10 @@ func (c *ElasticgpuV1alpha1Client) ElasticGPUClaims(namespace string) ElasticGPU
 
 func (c *ElasticgpuV1alpha1Client) ElasticGPUClasses() ElasticGPUClassInterface {
 	return newElasticGPUClasses(c)
+}
+
+func (c *ElasticgpuV1alpha1Client) GPUs() GPUInterface {
+	return newGPUs(c)
 }
 
 // NewForConfig creates a new ElasticgpuV1alpha1Client for the given config.

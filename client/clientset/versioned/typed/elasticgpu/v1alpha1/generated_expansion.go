@@ -7,3 +7,5 @@ type ElasticGPUExpansion interface{}
 type ElasticGPUClaimExpansion interface{}
 
 type ElasticGPUClassExpansion interface{}
+
+type GPUExpansion interface{}

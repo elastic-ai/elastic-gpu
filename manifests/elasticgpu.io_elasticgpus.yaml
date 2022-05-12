@@ -104,12 +104,8 @@ spec:
                 type: object
               gpuShare:
                 properties:
-                  index:
+                  gpuName:
                     type: string
-                  uuid:
-                    type: string
-                required:
-                - index
                 type: object
               nodeAffinity:
                 properties:
@@ -201,38 +197,25 @@ spec:
                     - nodeSelectorTerms
                     type: object
                 type: object
-              nodeName:
-                type: string
               physicalGPU:
                 properties:
-                  devices:
+                  gpuNames:
                     items:
-                      properties:
-                        index:
-                          type: string
-                        uuid:
-                          type: string
-                      required:
-                      - index
-                      type: object
+                      type: string
                     type: array
                 required:
-                - devices
+                - gpuNames
                 type: object
               qGPU:
                 properties:
                   deviceName:
                     type: string
-                  index:
+                  gpuName:
                     type: string
                   paths:
                     items:
                       type: string
                     type: array
-                  uuid:
-                    type: string
-                required:
-                - index
                 type: object
             type: object
           status:
