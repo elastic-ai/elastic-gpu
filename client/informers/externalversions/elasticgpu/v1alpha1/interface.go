@@ -14,6 +14,8 @@ type Interface interface {
 	ElasticGPUClaims() ElasticGPUClaimInformer
 	// ElasticGPUClasses returns a ElasticGPUClassInformer.
 	ElasticGPUClasses() ElasticGPUClassInformer
+	// GPUs returns a GPUInformer.
+	GPUs() GPUInformer
 }
 
 type version struct {
@@ -40,4 +42,9 @@ func (v *version) ElasticGPUClaims() ElasticGPUClaimInformer {
 // ElasticGPUClasses returns a ElasticGPUClassInformer.
 func (v *version) ElasticGPUClasses() ElasticGPUClassInformer {
 	return &elasticGPUClassInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// GPUs returns a GPUInformer.
+func (v *version) GPUs() GPUInformer {
+	return &gPUInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }

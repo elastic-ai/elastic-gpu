@@ -7,6 +7,10 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
+const (
+	version = "v1alpha1"
+)
+
 var (
 	// SchemeBuilder stores functions to add things to a scheme.
 	SchemeBuilder = runtime.NewSchemeBuilder(addKnownTypes)
@@ -15,7 +19,7 @@ var (
 )
 
 // SchemeGroupVersion is group version used to register these objects
-var SchemeGroupVersion = schema.GroupVersion{Group: elasticgpu.GroupName, Version: runtime.APIVersionInternal}
+var SchemeGroupVersion = schema.GroupVersion{Group: elasticgpu.GroupName, Version: version}
 
 // Kind takes an unqualified kind and returns a Group qualified GroupKind
 func Kind(kind string) schema.GroupKind {
@@ -30,6 +34,8 @@ func Resource(resource string) schema.GroupResource {
 // Adds the list of known types to the given scheme.
 func addKnownTypes(scheme *runtime.Scheme) error {
 	scheme.AddKnownTypes(SchemeGroupVersion,
+		&GPU{},
+		&GPUList{},
 		&ElasticGPU{},
 		&ElasticGPUList{},
 		&ElasticGPUClaim{},

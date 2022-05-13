@@ -17,3 +17,7 @@ type ElasticGPUClaimNamespaceListerExpansion interface{}
 // ElasticGPUClassListerExpansion allows custom methods to be added to
 // ElasticGPUClassLister.
 type ElasticGPUClassListerExpansion interface{}
+
+// GPUListerExpansion allows custom methods to be added to
+// GPULister.
+type GPUListerExpansion interface{}

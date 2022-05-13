@@ -43,6 +43,8 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Elasticgpu().V1alpha1().ElasticGPUClaims().Informer()}, nil
 	case v1alpha1.SchemeGroupVersion.WithResource("elasticgpuclasses"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Elasticgpu().V1alpha1().ElasticGPUClasses().Informer()}, nil
+	case v1alpha1.SchemeGroupVersion.WithResource("gpus"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Elasticgpu().V1alpha1().GPUs().Informer()}, nil
 
 	}
 

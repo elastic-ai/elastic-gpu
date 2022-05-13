@@ -23,27 +23,26 @@ import (
 
 // ElasticGPUSpec defines the desired state of ElasticGPU
 type ElasticGPUSpec struct {
-	Capacity         v1.ResourceList `json:"capacity,omitempty" protobuf:"bytes,1,rep,name=capacity,casttype=ResourceList,castkey=ResourceName"`
-	ElasticGPUSource `json:",inline" protobuf:"bytes,2,opt,name=elasticGPUSource"`
-	ClaimRef         v1.ObjectReference `json:"claimRef,omitempty" protobuf:"bytes,3,opt,name=claimRef"`
-	NodeAffinity     GPUNodeAffinity    `json:"nodeAffinity,omitempty" protobuf:"bytes,4,opt,name=nodeAffinity"`
-	NodeName         string             `json:"nodeName,omitempty" protobuf:"bytes,5,opt,name=nodeName"`
+	Capacity         v1.ResourceList `json:"capacity,omitempty"`
+	ElasticGPUSource `json:",inline"`
+	ClaimRef         v1.ObjectReference `json:"claimRef,omitempty"`
+	NodeAffinity     GPUNodeAffinity    `json:"nodeAffinity,omitempty"`
 }
 
 type GPUNodeAffinity struct {
-	Required *v1.NodeSelector `json:"required,omitempty" protobuf:"bytes,1,opt,name=required"`
+	Required *v1.NodeSelector `json:"required,omitempty"`
 }
 
 // ElasticGPUStatus defines the observed state of ElasticGPU
 type ElasticGPUStatus struct {
-	Phase ElasticGPUPhase `json:"phase,omitempty" protobuf:"bytes,1,opt,name=phase,casttype=ElasticGPUPhase"`
+	Phase ElasticGPUPhase `json:"phase,omitempty"`
 	// A human-readable message indicating details about why the elastic gpu is in this state.
 	// +optional
-	Message string `json:"message,omitempty" protobuf:"bytes,2,opt,name=message"`
+	Message string `json:"message,omitempty"`
 	// Reason is a brief CamelCase string that describes any failure and is meant
 	// for machine parsing and tidy display in the CLI.
 	// +optional
-	Reason string `json:"reason,omitempty" protobuf:"bytes,3,opt,name=reason"`
+	Reason string `json:"reason,omitempty"`
 }
 
 type ElasticGPUPhase string
@@ -66,9 +65,9 @@ const (
 // ElasticGPU is the Schema for the elasticgpus API
 type ElasticGPU struct {
 	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
-	Spec              ElasticGPUSpec   `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status            ElasticGPUStatus `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              ElasticGPUSpec   `json:"spec,omitempty"`
+	Status            ElasticGPUStatus `json:"status,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -76,33 +75,28 @@ type ElasticGPU struct {
 // ElasticGPUList is a list of ElasticGPU items
 type ElasticGPUList struct {
 	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
-	Items           []ElasticGPU `json:"items" protobuf:"bytes,2,rep,name=items"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ElasticGPU `json:"items"`
 }
 
 type ElasticGPUSource struct {
-	QGPU        *QGPUElasticGPUSource        `json:"qGPU,omitempty" protobuf:"bytes,1,opt,name=qGPU"`
-	PhysicalGPU *PhysicalGPUElasticGPUSource `json:"physicalGPU,omitempty" protobuf:"bytes,2,opt,name=physicalGPU"`
-	GPUShare    *GPUShareElasticGPUSource    `json:"gpuShare,omitempty" protobuf:"bytes,3,opt,name=gpuShare"`
+	QGPU        *QGPUSource        `json:"qGPU,omitempty"`
+	PhysicalGPU *PhysicalGPUSource `json:"physicalGPU,omitempty"`
+	GPUShare    *GPUShareSource    `json:"gpuShare,omitempty"`
 }
 
-type BaseGPUSource struct {
-	Index string `json:"index" protobuf:"bytes,1,opt,name=index"`
-	UUID  string `json:"uuid,omitempty" protobuf:"bytes,2,opt,name=uuid"`
+type QGPUSource struct {
+	GPUName    string   `json:"gpuName,omitempty"`
+	DeviceName string   `json:"deviceName,omitempty"`
+	Paths      []string `json:"paths,omitempty"`
 }
 
-type QGPUElasticGPUSource struct {
-	BaseGPUSource `json:",inline" protobuf:"bytes,1,opt,name=baseGPUSource"`
-	DeviceName    string   `json:"deviceName,omitempty" protobuf:"bytes,2,opt,name=deviceName"`
-	Paths         []string `json:"paths,omitempty" protobuf:"bytes,3,rep,name=paths"`
+type PhysicalGPUSource struct {
+	GPUNames []string `json:"gpuNames"`
 }
 
-type PhysicalGPUElasticGPUSource struct {
-	Devices []BaseGPUSource `json:"devices" protobuf:"bytes,1,opt,name=devices"`
-}
-
-type GPUShareElasticGPUSource struct {
-	BaseGPUSource `json:",inline" protobuf:"bytes,1,opt,name=baseGPUSource"`
+type GPUShareSource struct {
+	GPUName string `json:"gpuName,omitempty"`
 }
 
 const (
@@ -122,21 +116,21 @@ const (
 // ElasticGPUClaim is a user's request for and claim to a ElasticGPU
 type ElasticGPUClaim struct {
 	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
-	Spec              ElasticGPUClaimSpec   `json:"spec,omitempty" protobuf:"bytes,2,opt,name=spec"`
-	Status            ElasticGPUClaimStatus `json:"status,omitempty" protobuf:"bytes,3,opt,name=status"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              ElasticGPUClaimSpec   `json:"spec,omitempty"`
+	Status            ElasticGPUClaimStatus `json:"status,omitempty"`
 }
 
 // ElasticGPUClaimSpec is the specification of a ElasticGPUClaim
 type ElasticGPUClaimSpec struct {
-	Resources           v1.ResourceRequirements `json:"resources,omitempty" protobuf:"bytes,2,opt,name=resources"`
-	ElasticGPUName      string                  `json:"elasticGPUName,omitempty" protobuf:"bytes,3,opt,name=elasticGPUName"`
-	ElasticGPUClassName *string                 `json:"elasticGPUClassName,omitempty" protobuf:"bytes,5,opt,name=elasticGPUClassName"`
+	Resources           v1.ResourceRequirements `json:"resources,omitempty"`
+	ElasticGPUName      string                  `json:"elasticGPUName,omitempty"`
+	ElasticGPUClassName *string                 `json:"elasticGPUClassName,omitempty"`
 }
 
 // ElasticGPUClaimStatus is the current status of a ElasticGPUClaim
 type ElasticGPUClaimStatus struct {
-	Phase ElasticGPUClaimPhase `json:"phase,omitempty" protobuf:"bytes,1,opt,name=phase,casttype=ElasticGPUClaimPhase"`
+	Phase ElasticGPUClaimPhase `json:"phase,omitempty"`
 }
 
 type ElasticGPUClaimPhase string
@@ -152,8 +146,8 @@ const (
 // ElasticGPUClaimList is a list of ElasticGPUClaim items
 type ElasticGPUClaimList struct {
 	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
-	Items           []ElasticGPUClaim `json:"items" protobuf:"bytes,2,rep,name=items"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ElasticGPUClaim `json:"items"`
 }
 
 // +genclient
@@ -165,9 +159,9 @@ type ElasticGPUClaimList struct {
 // ElasticGPUClass is non-namespaced
 type ElasticGPUClass struct {
 	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
-	Provisioner       string            `json:"provisioner" protobuf:"bytes,2,opt,name=provisioner"`
-	Parameters        map[string]string `json:"parameters,omitempty" protobuf:"bytes,3,rep,name=parameters"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Provisioner       string            `json:"provisioner"`
+	Parameters        map[string]string `json:"parameters,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -175,6 +169,55 @@ type ElasticGPUClass struct {
 // ElasticGPUClassList is a list of ElasticGPUClass items
 type ElasticGPUClassList struct {
 	metav1.TypeMeta `json:",inline"`
-	metav1.ListMeta `json:"metadata,omitempty" protobuf:"bytes,1,opt,name=metadata"`
-	Items           []ElasticGPUClass `json:"items" protobuf:"bytes,2,rep,name=items"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ElasticGPUClass `json:"items"`
+}
+
+// +genclient
+// +genclient:nonNamespaced
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// +kubebuilder:resource:scope=Cluster
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+
+type GPU struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec              GPUSpec   `json:"spec,omitempty"`
+	Status            GPUStatus `json:"status,omitempty"`
+}
+
+type GPUSpec struct {
+	Index    int    `json:"index"`
+	UUID     string `json:"uuid,omitempty"`
+	Model    string `json:"model,omitempty"`
+	Path     string `json:"path,omitempty"`
+	Memory   uint64 `json:"memory,omitempty"`
+	NodeName string `json:"nodeName,omitempty"`
+}
+
+type GPUStatus struct {
+	State       string                  `json:"state,omitempty"`
+	Capacity    v1.ResourceList         `json:"capacity,omitempty"`
+	Allocatable v1.ResourceList         `json:"allocatable,omitempty"`
+	Allocated   map[string]*PodResource `json:"allocated,omitempty"`
+}
+
+type PodResource struct {
+	Namespace  string              `json:"namespace,omitempty"`
+	Pod        string              `json:"pod,omitempty"`
+	Containers []ContainerResource `json:"containers,omitempty"`
+}
+
+type ContainerResource struct {
+	Container string          `json:"container,omitempty"`
+	Resource  v1.ResourceList `json:"resource,omitempty"`
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+type GPUList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []GPU `json:"items"`
 }
