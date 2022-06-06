@@ -3,28 +3,30 @@
 
 *Managing Your GPUs in a Kubernetes-Native Way.*
 
+The whole project is in the stage of proposal preparation, and anyone is welcome to participate. You can find more details in [Elastic GPU: Using CRDs to manage GPU Resource in Kubernetes](https://docs.google.com/document/d/1kJzYEeGC6TXJEP40PRaBE3wm-ZujWnhvEnIHluWx0tc/edit?usp=sharing)
+
 ---
 
 **Elastic GPU** allows users to manage, schedule, and allocate GPU resources by using CRDs in a Kubernetes-native way. It is completely cloud native and can be deployed in any Kubernetes that meets the requirements of the version. Elastic GPU also provides the implementation of standard scheduler and agent around CRDs, which can support GPU sharing, whole-card scheduling and GPU remote instances. Elastic GPU also provides a framework that allows third-party GPU technology solutions to be integrated into Elastic GPU in the form of plug-ins, eventually giving users a consistent experience.
 
 The main components of Elastic GPU are as follows:
 
-- Elastic GPU CRDs: CRDs schema and as-is interface.
-- Elastic GPU Scheduler: general GPU scheduler, which supports GPU sharing, whole card, GPU remote instance and third party GPU scheduling plug-in.
-- Elastic GPU Agent: general GPU Agent, supporting GPU sharing, whole card, GPU remote instance and third party GPU device plug-in.
-- Elastic GPU Framework: GPU unified management and scheduling framework, following Elastic GPU CRDs principles, plug-in design.
+- **Elastic GPU CRDs:** CRDs schema and as-is interface.
+- **Elastic GPU Scheduler:** general GPU scheduler, which supports GPU sharing, whole card, GPU remote instance and third party GPU scheduling plug-in.
+- **Elastic GPU Agent:** general GPU Agent, supporting GPU sharing, whole card, GPU remote instance and third party GPU device plug-in.
+- **Elastic GPU Framework:** GPU unified management and scheduling framework, following Elastic GPU CRDs principles, plug-in design.
 
 ## Architecture
 ![](./static/arch.png)
 
 ## Concepts
-- `ElasticGPU` is a resource device abstraction CRD, which can be a local GPU physical card, a GPU slice resource (combination of GPU computing power / video memory), and a remote GPU device.
-- `ElasticGPUClaim` is GPU requests applied for the number of cards, GPU core / memory, or TFLOPS which stands for ElasticGPU computing ability.
-- `EGPUClass` provides a way to provision, attach and mount `ElasticGPU`, using qGPU virtualization, vCUDA, or GPU remote pooling technology.
-- `GPU Sharing` supports multiple containers to share the same GPU card, and supports 1% computing power and MB level video memory allocation.
-- `Two-Tier Scheduling` supports scheduling at the node / GPU card level, and each layer supports binpack / spread policies.
-- `GPU Isolation` supports the integration of isolation technologies such as qGPU and MIG to provide container-level GPU resource isolation capabilities for users.
-- `Dynamic Provision` supports the ability to dynamically create local or remote GPU devices, bind and mount GPU devices during Pod creation
+- **ElasticGPU** is a resource device abstraction CRD, which can be a local GPU physical card, a GPU slice resource (combination of GPU computing power / video memory), and a remote GPU device.
+- **ElasticGPUClaim** is GPU requests applied for the number of cards, GPU core / memory, or TFLOPS which stands for ElasticGPU computing ability.
+- **EGPUClass** provides a way to provision, attach and mount `ElasticGPU`, using qGPU virtualization, vCUDA, or GPU remote pooling technology.
+- **GPU Sharing** supports multiple containers to share the same GPU card, and supports 1% computing power and MB level video memory allocation.
+- **Two-Tier Scheduling** supports scheduling at the node / GPU card level, and each layer supports binpack / spread policies.
+- **GPU Isolation** supports the integration of isolation technologies such as qGPU and MIG to provide container-level GPU resource isolation capabilities for users.
+- **Dynamic Provision** supports the ability to dynamically create local or remote GPU devices, bind and mount GPU devices during Pod creation
 
 ## Getting Started
 ```
