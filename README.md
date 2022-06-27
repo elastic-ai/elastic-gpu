@@ -28,9 +28,12 @@ The main components of Elastic GPU are as follows:
 
 ## Getting Started
 ```
-$ kubectl apply -f https://github.com/elastic-ai/elastic-gpu/tree/master/manifests/
-$ kubectl apply -f https://github.com/elastic-ai/elastic-gpu-scheduler/tree/master/deploy/
-$ kubectl apply -f https://github.com/elastic-ai/elastic-gpu-agent/tree/master/deploy/
+$ kubectl apply -f https://raw.githubusercontent.com/elastic-ai/elastic-gpu/master/manifests/elasticgpu.io_elasticgpuclaims.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/elastic-ai/elastic-gpu/master/manifests/elasticgpu.io_elasticgpuclasses.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/elastic-ai/elastic-gpu/master/manifests/elasticgpu.io_elasticgpus.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/elastic-ai/elastic-gpu/master/manifests/elasticgpu.io_gpus.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/elastic-ai/elastic-gpu-scheduler/master/deploy/elastic-gpu-scheduler.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/elastic-ai/elastic-gpu-agent/master/deploy/elastic-gpu-agent.yaml
 ```
 
 ## Examples
